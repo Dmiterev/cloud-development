@@ -30,10 +30,11 @@ public class QueryBasedLoadBalancer(Func<Task<List<Service>>> serviceProviderFac
             throw new InvalidOperationException("No available downstream services");
 
         if (!context.Request.Query.TryGetValue("id", out var idValue) ||
-            !int.TryParse(idValue, out var id))
+            !int.TryParse(idValue, out var id) ||
+            id < 0)
             throw new InvalidOperationException("Query parameter 'id' is missing or invalid");
 
-        var index = Math.Abs(id) % services.Count;
+        var index = id % services.Count;
 
         return new OkResponse<ServiceHostAndPort>(services[index].HostAndPort);
     }
