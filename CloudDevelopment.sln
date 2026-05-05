@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectGenerator.Domain", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Gateway", "Api.Gateway\Api.Gateway.csproj", "{C99E72F4-9BA7-7D56-C88E-FB28534EFCB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectGenerator.FileService", "ProjectGenerator.FileService\ProjectGenerator.FileService.csproj", "{A4B68077-2A98-B84D-9F7A-7D8819CAC35F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectGenerator.AppHost.Tests", "ProjectGenerator\ProjectGenerator.AppHost.Tests\ProjectGenerator.AppHost.Tests.csproj", "{4442A23F-CBC5-4C77-A4F6-3D3A9493C8F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{C99E72F4-9BA7-7D56-C88E-FB28534EFCB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C99E72F4-9BA7-7D56-C88E-FB28534EFCB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C99E72F4-9BA7-7D56-C88E-FB28534EFCB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B68077-2A98-B84D-9F7A-7D8819CAC35F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B68077-2A98-B84D-9F7A-7D8819CAC35F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B68077-2A98-B84D-9F7A-7D8819CAC35F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B68077-2A98-B84D-9F7A-7D8819CAC35F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4442A23F-CBC5-4C77-A4F6-3D3A9493C8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4442A23F-CBC5-4C77-A4F6-3D3A9493C8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4442A23F-CBC5-4C77-A4F6-3D3A9493C8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4442A23F-CBC5-4C77-A4F6-3D3A9493C8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

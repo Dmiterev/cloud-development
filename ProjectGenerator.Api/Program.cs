@@ -1,9 +1,15 @@
+using Amazon.SQS;
+using LocalStack.Client.Extensions;
 using ProjectGenerator.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.AddRedisDistributedCache("cache");
+
+builder.Services.AddLocalStack(builder.Configuration);
+builder.Services.AddAwsService<IAmazonSQS>();
+builder.Services.AddScoped<IProjectProducer, SqsProjectProducer>();
 
 builder.Services.AddSingleton<ISoftwareProjectGenerator, SoftwareProjectGenerator>();
 builder.Services.AddScoped<ISoftwareProjectService, SoftwareProjectService>();

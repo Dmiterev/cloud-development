@@ -5,14 +5,17 @@ using ProjectGenerator.Domain.Models;
 namespace ProjectGenerator.Api.Services;
 
 /// <summary>
-/// Сервис программных проектов с кэшированием
+/// Сервис программных проектов, объединяющий кэширование (Redis) и публикацию
+/// сгенерированных проектов в брокер сообщений (SQS) для файлового сервиса
 /// </summary>
-/// <param name="generator">Генератор программных проектов</param>
-/// <param name="cache">Распределённый кэш</param>
-/// <param name="configuration">Конфигурация приложения</param>
-/// <param name="logger">Логгер</param>
+/// <param name="generator">Генератор программных проектов на основе Bogus</param>
+/// <param name="producer">Продюсер сообщений, отправляющий проект в очередь</param>
+/// <param name="cache">Распределённый кэш Redis для хранения уже сгенерированных проектов</param>
+/// <param name="configuration">Конфигурация приложения (содержит TTL кэша)</param>
+/// <param name="logger">Логгер для диагностики операций сервиса</param>
 public class SoftwareProjectService(
     ISoftwareProjectGenerator generator,
+    IProjectProducer producer,
     IDistributedCache cache,
     IConfiguration configuration,
     ILogger<SoftwareProjectService> logger) : ISoftwareProjectService
@@ -35,16 +38,17 @@ public class SoftwareProjectService(
 
         var project = generator.Generate(id);
 
+        await producer.SendAsync(project);
         await SetToCache(cacheKey, project);
 
         return project;
     }
 
     /// <summary>
-    /// Получение программного проекта из кэша
+    /// Получает программный проект из распределённого кэша по ключу
     /// </summary>
-    /// <param name="cacheKey">Ключ кэша</param>
-    /// <returns>Программный проект или null</returns>
+    /// <param name="cacheKey">Полный ключ кэша вида software-project:{id}</param>
+    /// <returns>Десериализованный программный проект или null, если в кэше нет данных или произошла ошибка чтения</returns>
     private async Task<SoftwareProject?> GetFromCache(string cacheKey)
     {
         try
@@ -66,10 +70,10 @@ public class SoftwareProjectService(
     }
 
     /// <summary>
-    /// Сохранение программного проекта в кэш
+    /// Сохраняет программный проект в распределённый кэш с настроенным TTL
     /// </summary>
-    /// <param name="cacheKey">Ключ кэша</param>
-    /// <param name="project">Программный проект</param>
+    /// <param name="cacheKey">Полный ключ кэша вида software-project:{id}</param>
+    /// <param name="project">Программный проект для сериализации и сохранения</param>
     private async Task SetToCache(string cacheKey, SoftwareProject project)
     {
         try

@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Cloud formation template for software project generator (SQS + Localstack S3)'
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Name for the S3 bucket
+    Default: 'projectgenerator-bucket'
+
+  QueueName:
+    Type: String
+    Description: Name for the SQS queue
+    Default: 'projectgenerator-queue'
+
+Resources:
+  ProjectBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      VersioningConfiguration:
+        Status: Suspended
+      Tags:
+        - Key: Name
+          Value: !Ref BucketName
+        - Key: Environment
+          Value: Lab3
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  ProjectQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref QueueName
+      VisibilityTimeout: 30
+      MessageRetentionPeriod: 345600
+      DelaySeconds: 0
+      ReceiveMessageWaitTimeSeconds: 0
+      Tags:
+        - Key: Name
+          Value: !Ref QueueName
+        - Key: Environment
+          Value: Lab3
+
+Outputs:
+  S3BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref ProjectBucket
+
+  S3BucketArn:
+    Description: ARN of the S3 bucket
+    Value: !GetAtt ProjectBucket.Arn
+
+  SQSQueueName:
+    Description: Name of the SQS queue
+    Value: !GetAtt ProjectQueue.QueueName
+
+  SQSQueueArn:
+    Description: ARN of the SQS queue
+    Value: !GetAtt ProjectQueue.Arn

@@ -12,13 +12,21 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2" />
-	<PackageReference Include="Aspire.Hosting.Redis" Version="9.5.2" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="9.5.2" />
+    <PackageReference Include="LocalStack.Aspire.Hosting" Version="9.5.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Api.Gateway\Api.Gateway.csproj" />
     <ProjectReference Include="..\..\Client.Wasm\Client.Wasm.csproj" />
     <ProjectReference Include="..\..\ProjectGenerator.Api\ProjectGenerator.Api.csproj" />
+    <ProjectReference Include="..\..\ProjectGenerator.FileService\ProjectGenerator.FileService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CloudFormation\projectgenerator-template.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
